@@ -36,7 +36,7 @@ class Recommendations:
     labs: Dict[str, Any] = field(default_factory=dict)
     lifestyle_changes: Dict[str, Any] = field(default_factory=dict)
 
-    def set_values(self, names: List[str], data: Dict[str, Any]) -> None:
+    def set_values(self, names: List[str]) -> None:
         """
         Sets the recommendations for the given disease names using the recommendation data.
 
@@ -69,7 +69,7 @@ class Recommendations:
 
         # Filter diseases from chronic predictions with probabilities >= 0.5
         for name in chronic_pred.names:
-            if name != "BPH" and chronic_pred.prob.get(name, 0) >= 0.5:
+            if chronic_pred.prob.get(name, 0) >= 0.5:
                 names.append(DISEASE_MAPPINGS.get(name, name))  # Use name mapping if available
 
         # Add 'Normal' if 'normal' is found in medlab predictions
@@ -80,5 +80,7 @@ class Recommendations:
             for name in medlab_pred.names:
                 if medlab_pred.prob.get(name, 0) >= 60:
                     names.append(DISEASE_MAPPINGS.get(name, name))  # Use name mapping if available
+            for name in medlab_pred.confirmed_names:
+                names.append(DISEASE_MAPPINGS.get(name, name))
 
         return names

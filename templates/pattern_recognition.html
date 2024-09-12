@@ -3,6 +3,7 @@
 {% block title %}Disease Trajectories{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="static/pattern.css">
 <div class="container mt-4">
     <h2>Disease Trajectories</h2>
     <div class="row">
@@ -11,8 +12,8 @@
                 {% if html %}
                     {{ html | safe }}
                 {% else %}
-                <div class="alert alert-success text-center" role="alert" style="font-size: 1.5rem; font-weight: bold;">
-                    The Disease Trajectories is unavailable for this patient
+                <div class="alert alert-success text-center" role="alert">
+                    The Disease Trajectories are unavailable for this patient
                 </div>
                 {% endif %}
             </div>
@@ -20,5 +21,3 @@
     </div>
 </div>
 {% endblock %}
-
-

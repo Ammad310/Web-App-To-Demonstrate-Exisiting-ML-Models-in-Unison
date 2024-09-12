@@ -137,7 +137,7 @@ class Patient:
         # Set recommendations based on filtered predictions
         self.recommendations = Recommendations()
         filtered_names = self.recommendations.filter_recommendations(self.chronic_pred, self.medlab_pred)
-        self.recommendations.set_values(filtered_names, data["recommendations"])
+        self.recommendations.set_values(filtered_names)
 
     def get_chronic_pred(self):
         """

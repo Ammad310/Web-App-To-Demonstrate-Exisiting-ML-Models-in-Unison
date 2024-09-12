@@ -4,15 +4,17 @@
 
 {% block content %}
 <link rel="stylesheet" href="static\medlabs.css">
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container mt-4">
     <div class="row">
         <!-- Confirmed Diagnosis Section -->
         <div class="col-md-12 mb-4">
             <h2>Confirmed Diagnosis</h2>
             {% if confirmed %}
-                <div class="card right-pane">
+                <div class="right-pane" >
                     <div class="card-body left-pane">
-                        <ul class="list-unstyled">
+                        <ul class="list-unstyled" style="padding: 20px;">
                             {% for disease, details in confirmed.items() %}
                                 <li class="mb-4">
                                     <h5><div style="font-weight: bold;">{{ details.verbose_name }} ({{ details.disease_name }})</div></h5>
@@ -35,7 +37,15 @@
                     </div>
                 </div>
             {% else %}
-                <p>No confirmed diagnosis.</p>
+            <div class="right-pane">
+                <div class="card-body left-pane" style="text-align: center;">
+                   
+               
+                        <p style="padding-top: 10px;"><b>No confirmed diagnosis!</b></p>
+                   
+                </div>
+            </div>
+               
             {% endif %}
         </div>
 
@@ -47,6 +57,13 @@
         {% else %}
         <div class="col-md-12 mb-4">
             <h3>Likely Diagnosis</h3>
+             <!-- Pie Chart for Disease Probabilities -->
+             <div class="chart-container mt-4" style="width:60%; max-width: 300px; margin: 0 auto;">
+               
+                <canvas id="diseaseProbabilitiesChart"></canvas>
+            </div>
+        </div>
+ 
             {% for name in names %}
             <div class="mb-3">
                 <!-- Disease Name Button -->
@@ -80,7 +97,7 @@
                                         {% for key, value in feature_imp[name].items() %}
                                             <tr>
                                                 <td>{{ key }}</td>
-                                                <td>{{ value|float|round(7) }}</td>
+                                                <td>{{ value|float|round(2) }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -97,5 +114,54 @@
         {% endif %}
     </div>
 </div>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Convert the names and probs variables to JSON arrays
+        console.log('Names:', names);
+        console.log('Probs:', probs);
+        var names = {{ names|tojson }};
+        var probs = {{ probs|tojson }};
+        // Extract labels and data from names and probs
+        var labels = names;
+        var data = names.map(function(name) {
+            return probs[name]|| 0;
+        });
+ 
+        // Chart.js - Pie Chart for Disease Probabilities
+        var ctx = document.getElementById('diseaseProbabilitiesChart').getContext('2d');
+        var diseaseProbabilitiesChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (context.parsed !== null) {
+                                    // Convert the value to a percentage and round to one decimal place
+                                    let value = (context.parsed).toFixed(1);
+                                    label += ': ' + value + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Disease Probabilities'
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}

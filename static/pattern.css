@@ -1,0 +1,83 @@
+body {
+    background-color: #f0f8ff;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1350px;
+    margin: 0 auto; /* Centers container on the page */
+    
+}
+
+h2 {
+    font-size: 2rem;
+    color: #0287CA; /* Stylish blue for headings */
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #0287CA;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    text-align: left;
+}
+
+.btn-primary:hover {
+    background-color: #0276a8;
+}
+
+.card {
+    border: none; /* Remove default card border */
+}
+
+.card-body {
+    background: linear-gradient(145deg, #f0f8ff, #e6f7ff); /* Soft gradient background */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Gentle shadow for depth */
+    padding: 10px; /* Comfortable padding */
+    margin: 5px 0; /* Spacing around the card */
+}
+
+.card-body ul {
+    padding-left: 0; /* Remove default padding */
+}
+
+.card-body ul li {
+    border-bottom: 1px solid #cce5ff; /* Light border between list items */
+    padding: 5px 0; /* Space around each list item */
+    color: #555; /* Slightly lighter color for list items */
+}
+
+.card-body ul li:last-child {
+    border-bottom: none; /* Remove border for the last item */
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+}
