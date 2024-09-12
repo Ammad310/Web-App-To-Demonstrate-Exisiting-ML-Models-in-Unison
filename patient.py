@@ -1,6 +1,6 @@
-from chronic import ChronicPredictor
-from medlabs import MedLabPredictor
-from recommendations import Recommendations
+from ChronicPredictor import ChronicPredictor
+from MedLabPredictor import MedLabPredictor
+from Recommendations import Recommendations
 import json
 from datetime import datetime
 

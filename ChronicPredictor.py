@@ -55,7 +55,7 @@ class ChronicPredictor(DiseasePredictor):
 
     def generate_sankey_plot(self) -> Optional[go.Figure]:
         data = self.trajectory
-        if data is None or "Mapper" not in data:
+        if data is None or "Mapper" not in data or data["Mapper"]==[]:
             return None
 
         id_to_desc = {item["ICD10"]: item["Description"] for item in data["Mapper"]}

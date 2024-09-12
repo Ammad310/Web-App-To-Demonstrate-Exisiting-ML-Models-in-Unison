@@ -49,43 +49,7 @@
             {% for name in names %}
             <div class="tab-pane {% if loop.index == active_tab or loop.index == 1 %}show{% endif %}" id="tab-content-{{ loop.index }}" style="display: {% if loop.index == active_tab or loop.index == 1%}block{% else %}none{% endif %};">
                 <div class="row">
-                    <!-- Important Features Section -->
-                    <div class="col-lg-12 mb-3">
-                        <div class="accordion" id="accordion-important-features-{{ loop.index }}">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading-important-features-{{ loop.index }}">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-important-features-{{ loop.index }}" aria-expanded="false" aria-controls="collapse-important-features-{{ loop.index }}">
-                                        <div style="font-weight: bold;">Important Features</div>
-                                    </button>
-                                </h2>
-                                <div id="collapse-important-features-{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading-important-features-{{ loop.index }}" data-bs-parent="#accordion-important-features-{{ loop.index }}">
-                                    <div class="accordion-body">
-                                        {% if imp[name] %}
-                                            <table class="table table-striped" id="table-important-features-{{ loop.index }}">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Feature</th>
-                                                        <th>Value</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for important in imp[name] %}
-                                                        <tr>
-                                                            <td>{{ important["Feature"] }}</td>
-                                                            <td>{{ important["Value"]|float|round(1) }}</td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        {% else %}
-                                            <p>No important features data available.</p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
+                                        
 
                     <!-- Risky Features Section -->
                     <div class="col-lg-12 mb-3">
@@ -124,6 +88,43 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Important Features Section -->
+                    <div class="col-lg-12 mb-3">
+                        <div class="accordion" id="accordion-important-features-{{ loop.index }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-important-features-{{ loop.index }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-important-features-{{ loop.index }}" aria-expanded="false" aria-controls="collapse-important-features-{{ loop.index }}">
+                                        <div style="font-weight: bold;">Important Features</div>
+                                    </button>
+                                </h2>
+                                <div id="collapse-important-features-{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading-important-features-{{ loop.index }}" data-bs-parent="#accordion-important-features-{{ loop.index }}">
+                                    <div class="accordion-body">
+                                        {% if imp[name] %}
+                                            <table class="table table-striped" id="table-important-features-{{ loop.index }}">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Feature</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for important in imp[name] %}
+                                                        <tr>
+                                                            <td>{{ important["Feature"] }}</td>
+                                                            <td>{{ important["Value"]|float|round(1) }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {% else %}
+                                            <p>No important features data available.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                                     <!-- Feature Vector Section -->
                                     <div class="col-lg-12 mb-3">
                                         <div class="accordion" id="accordion-feature-vector-{{ loop.index }}">

@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, session, flash, redirect, jso
 from flask_session import Session
 import json
 import requests
-from patient import Patient
-from starter import DatabaseHandler
+from Patient import Patient
+from DatabaseHandler import DatabaseHandler
 import os
 
 # Load disease name mappings from a JSON file for later use in the app
