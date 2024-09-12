@@ -42,66 +42,43 @@ class ChronicPredictor(DiseasePredictor):
             # Add the disease name to the names list if it's not already there
             if diseases["Disease"] not in self.names:
                 self.names.append(diseases["Disease"])
-
-                # If "12_months" probability exists, use it; otherwise, default to "4_months"
-                if "12_months" in diseases["ModelsProbabilities"]:
-                    self.prob[diseases["Disease"]] = diseases["ModelsProbabilities"]["12_months"]
-                else:
-                    self.prob[diseases["Disease"]] = diseases["ModelsProbabilities"]["4_months"]
-
-                # Store feature vectors, risky features, important features, and prediction rules
+                keys = diseases['ModelsProbabilities'].keys()
+                keys = (int(key.strip('_months')) for key in keys)
+                maximum = max(keys)
+                val = str(maximum)+'_months'
+                self.prob[diseases["Disease"]] = diseases["ModelsProbabilities"][val]
                 self.feature_vector[diseases["Disease"]] = diseases["FeatureVector"]
                 self.risky_features[diseases["Disease"]] = diseases["RiskyFeatures"]
                 self.imp_features[diseases["Disease"]] = diseases["AllImportantFeatures"]
                 self.top_pred_rules[diseases["Disease"]] = diseases["TopPredictionRules"]
-        
-        # Store the disease trajectory for visualization
         self.trajectory = data["Content"]["DiseaseTrajectories"]
 
     def generate_sankey_plot(self) -> Optional[go.Figure]:
-        """
-        Generates a Sankey diagram based on the disease trajectories data. If the required data
-        is missing, it returns None.
-
-        Returns:
-            Optional[go.Figure]: A Plotly Sankey diagram figure or None if no valid data is available.
-        """
-        # Check if trajectory data is available
         data = self.trajectory
         if data is None or "Mapper" not in data:
-            return None  # Return None if no data is available for plotting
+            return None
 
-        # Create a mapping of ICD10 codes to their descriptions
         id_to_desc = {item["ICD10"]: item["Description"] for item in data["Mapper"]}
-
-        # Extract all unique "From" and "To" labels for the plot
         labels = list(set(item["From"] for item in data["Data"]) | set(item["To"] for item in data["Data"]))
-
-        # Create a label map to convert labels into indices for Sankey plotting
         label_map = {label: idx for idx, label in enumerate(labels)}
-
-        # Create lists of source, target, and values for the Sankey diagram
         sources = [label_map[item["From"]] for item in data["Data"]]
         targets = [label_map[item["To"]] for item in data["Data"]]
         values = [item["Weight"] for item in data["Data"]]
-
-        # Generate the Sankey diagram using Plotly
         fig = go.Figure(data=[go.Sankey(
             node=dict(
                 pad=15,
                 thickness=20,
                 line=dict(color="black", width=0.5),
-                label=[id_to_desc[label] for label in labels]  # Map labels to their descriptions
+                label=[id_to_desc[label] for label in labels]
             ),
             link=dict(
-                source=sources,  # Source nodes
-                target=targets,  # Target nodes
-                value=values     # Weights of the links
+                source=sources,
+                target=targets,
+                value=values
             )
         )])
-
-        # Update the layout of the figure
         fig.update_layout(title_text="Sankey Diagram of Disease Data", font_size=15)
-        return fig  # Return the figure object
+        return fig
+
 
 

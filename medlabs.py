@@ -11,6 +11,7 @@ class MedLabPredictor(DiseasePredictor):
         confirmed_diag (Dict[str, Any]): A dictionary containing confirmed diagnoses, mapping verbose disease names to their details.
     """
     confirmed_diag: Dict[str, Any] = field(default_factory=dict)
+    confirmed_names: list[str] = field(default_factory=list)
 
     def select_top_four(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
@@ -54,7 +55,10 @@ class MedLabPredictor(DiseasePredictor):
                 
                 # Set the important features for the disease, sorted by their importance
                 self.imp_features[name] = dict(sorted(disease["feature_importances"].items(), key=lambda item: item[1], reverse=True))
+
+                
         
         # Add the confirmed diagnoses to the confirmed_diag attribute
         for disease in data["confirmed_diag"]:
             self.confirmed_diag[disease["verbose_name"]] = disease
+            self.confirmed_names.append(disease["verbose_name"])

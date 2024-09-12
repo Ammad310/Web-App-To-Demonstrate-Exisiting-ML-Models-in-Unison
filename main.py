@@ -22,7 +22,7 @@ class FlaskApp:
         self.app.config["SESSION_TYPE"] = "filesystem"
         self.app.config["SECRET_KEY"] = "your_secret_key_here"  # Secret key for session security
         Session(self.app)
-        
+        self.mongo_fetcher = DatabaseHandler()
         # Initialize Patient instance to manage patient data
         self.patient1 = Patient()
         
@@ -62,10 +62,10 @@ class FlaskApp:
             session['PID'] = request.form.get("PID", None)  # Get patient ID from the form
             session['PP'] = request.form.get("PP", None)    # Get patient practice from the form
             
-            mongo_fetcher = DatabaseHandler()  # Initialize database handler to fetch patient data
+              # Initialize database handler to fetch patient data
             self.patient1.patient_ID = session.get("PID", '')  # Assign patient ID to patient instance
             self.patient1.patient_practice = session.get("PP", '')  # Assign practice ID to patient instance
-            pat = mongo_fetcher.get_patients_from_mongo(self.patient1.patient_ID, self.patient1.patient_practice)  # Fetch patient data from MongoDB
+            pat = self.mongo_fetcher.get_patients_from_mongo(self.patient1.patient_ID, self.patient1.patient_practice)  # Fetch patient data from MongoDB
             self.patient1.data = json.loads(pat)
             if not self.patient1.data:
                 response = {
@@ -115,7 +115,7 @@ class FlaskApp:
     # Handles responses for medical labs data
     def handle_medlabs_response(self):
         names, probs, feature_imp, confirmed= self.patient1.get_medlab_pred()
-        print(confirmed)
+        
         return render_template("medlabs_response.html", names=names, probs=probs, feature_imp=feature_imp, confirmed=confirmed, data=self.patient1.data)
     # Handles requests for pattern recognition (Sankey plot)
     def handle_pattern_recognition(self):
@@ -157,4 +157,4 @@ class FlaskApp:
 
 if __name__ == '__main__':
     app_instance = FlaskApp()
-    app_instance.app.run(host="172.16.105.134", debug=True, port=5000)
+    app_instance.app.run(host="172.16.105.138", debug=True, port=5000)
