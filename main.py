@@ -103,7 +103,7 @@ class FlaskApp:
         
         # Continue with the normal flow if the key exists
         # print(response.json())
-        self.patient1.collect_patient_data(response.json())
+        self.patient1.assign_patient_pred(response.json())
         self.patient1.sort_diagnosis()
         return render_template('diagnose.html', data=self.patient1.data)
 

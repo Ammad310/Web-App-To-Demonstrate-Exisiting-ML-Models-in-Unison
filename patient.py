@@ -119,7 +119,7 @@ class Patient:
         sorted_diagnoses = sorted(self.data["Diagnoses"], key=lambda x: parse_date(x.get('Date', '')), reverse=True)
         self.data["Diagnoses"] = sorted_diagnoses
 
-    def collect_patient_data(self, data):
+    def assign_patient_pred(self, data):
         """
         Collects patient data and uses it to make predictions and set recommendations.
 
